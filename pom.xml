@@ -16,34 +16,26 @@
     </properties>
 
     <dependencies>
-        <!-- Jakarta Servlet API for Tomcat 10 -->
+        <!-- Phù hợp với App Engine Java 17 (Jetty 11 / Servlet 5.0) -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.0.0</version>
+            <version>5.0.0</version>
             <scope>provided</scope>
         </dependency>
 
-        <!-- JSON processing -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.10.1</version>
         </dependency>
 
-        <!-- Firebase Admin SDK -->
         <dependency>
             <groupId>com.google.firebase</groupId>
             <artifactId>firebase-admin</artifactId>
             <version>9.2.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.thetransactioncompany</groupId>
-            <artifactId>cors-filter</artifactId>
-            <version>3.1</version>
-        </dependency>
 
-        <!-- Google Cloud Firestore -->
         <dependency>
             <groupId>com.google.cloud</groupId>
             <artifactId>google-cloud-firestore</artifactId>

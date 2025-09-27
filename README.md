@@ -135,3 +135,5 @@ src/
 - AngularJS 1.8.2
 - Bootstrap 5
 - Font Awesome 6
+
+

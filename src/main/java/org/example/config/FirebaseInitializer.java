@@ -7,7 +7,7 @@ import com.google.firebase.FirebaseOptions;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
-import java.io.InputStream;
+
 import java.io.IOException;
 
 @WebListener
@@ -17,31 +17,28 @@ public class FirebaseInitializer implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         try {
             if (FirebaseApp.getApps().isEmpty()) {
-                // Đọc file từ resources
-                InputStream serviceAccount = getClass()
-                        .getClassLoader()
-                        .getResourceAsStream("todo-473210-929d7aa0a54a.json");
-
-                if (serviceAccount == null) {
-                    throw new RuntimeException("Firebase credentials file not found in resources!");
-                }
+                // Lấy project id từ biến môi trường chuẩn của Google App Engine / Cloud Run
+                String projectId = System.getenv("GOOGLE_CLOUD_PROJECT");
+                if (projectId == null) projectId = System.getenv("GCLOUD_PROJECT");
+                if (projectId == null) projectId = "todo-473210"; // fallback khi chạy local
 
                 FirebaseOptions options = FirebaseOptions.builder()
-                        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                        .setProjectId("todo-473210") // Project ID thật
+                        .setCredentials(GoogleCredentials.getApplicationDefault())
+                        .setProjectId(projectId)
                         .build();
 
                 FirebaseApp.initializeApp(options);
-                System.out.println("Firebase initialized successfully with service account file from resources");
+                System.out.println("Firebase initialized using Application Default Credentials (projectId=" + projectId + ")");
             }
         } catch (IOException e) {
-            System.err.println("Failed to initialize Firebase: " + e.getMessage());
-            System.err.println("Application will continue with MockTodoService");
+            System.err.println("Failed to initialize Firebase with ADC: " + e.getMessage());
+        } catch (Exception ex) {
+            System.err.println("Unexpected error initializing Firebase: " + ex.getMessage());
         }
     }
+
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         System.out.println("Firebase context destroyed");
     }
-
 }

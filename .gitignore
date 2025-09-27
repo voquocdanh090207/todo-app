@@ -4,6 +4,14 @@ target/
 !**/src/test/**/target/
 .kotlin
 
+# Ignore any service account or firebase key json (do not commit secrets)
+*serviceaccount*.json
+*firebase*.json
+*credentials*.json
+*key*.json
+
+default-*.json
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
